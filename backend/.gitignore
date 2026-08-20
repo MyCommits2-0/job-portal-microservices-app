@@ -1,0 +1,59 @@
+/.metadata/
+# Maven build
+target/
+
+# STS / Eclipse
+.classpath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+.factorypath
+# *.properties
+# *.yaml
+# *.yml
+
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.txt
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
