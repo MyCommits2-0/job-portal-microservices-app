@@ -1,0 +1,58 @@
+jwt:
+  secret: ${JWT_SECRET}
+
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+
+notification-service:
+  url: ${NOTIFICATION_SERVICE_URL:http://localhost:8086}
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      # spring-cloud-gateway-server-mvc (the WebMVC gateway, not the classic WebFlux
+      # spring-cloud-starter-gateway) binds routes under server.webmvc.routes, NOT
+      # plain "gateway.routes" - that key is silently ignored by this module, which is
+      # why no route has ever actually been registered.
+      server:
+        webmvc:
+          routes:
+            - id: auth-user-service
+              uri: lb://AUTH-USER-SERVICE
+              predicates:
+                - Path=/auth/**
+
+            - id: profile-service
+              uri: lb://PROFILE-SERVICE
+              predicates:
+                - Path=/api/profile/**
+
+            - id: job-service
+              uri: lb://JOB-SERVICE
+              predicates:
+                - Path=/jobs/**
+
+            - id: application-service
+              uri: lb://APPLICATION-SERVICE
+              predicates:
+                - Path=/applications/**
+
+            - id: notification-service
+              # NotificationService is .NET (no Eureka/Steeltoe client available), so
+              # it can't self-register - route to a fixed URI instead of lb://.
+              uri: ${notification-service.url}
+              predicates:
+                - Path=/notifications/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
